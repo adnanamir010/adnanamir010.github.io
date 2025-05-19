@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>IoT Based Patrol Bot</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="icon" href="images/favicon.ico">
+</head>
+<body>
+    <div id="page-wrapper">
+        <header id="header">
+            <h1><a href="index.html">Home</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li class="special">
+                        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+                        <div id="menu">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#projects">Projects</a></li>
+                                <li><a href="index.html#about">About</a></li>
+                                <li><a href="index.html#contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <article id="main">
+            <header>
+                <h2>IoT-Based Autonomous Patrol Bot</h2>
+                <p><em>Team: Adnan Amir, Aaryaman Chandgothia, Moksh Goel<br>
+                Supervised by: Dr. Venkatesh Deshmukh, Prof. Nirmal Thakur</em></p>
+            </header>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Addressing a Real-World Security Gap</h3>
+                    <p>Traditional security measures, like CCTV cameras, often fall short due to human factors such as guard fatigue, especially during night shifts. This project, the "IoT Based Patrol Bot," was conceived to tackle this prevalent issue, particularly for small and medium-sized businesses where advanced security solutions can be cost-prohibitive. The core motivation was to develop an affordable, autonomous, and reliable auxiliary security system that complements existing setups.</p>
+                    <figure class="image fit">
+                        <img src="images/patrolbot2.jpg" alt="Conceptual image of Patrol Bot in an office" onerror="this.onerror=null;this.src='https://placehold.co/800x400/cccccc/000000?text=Patrol+Bot+Concept';">
+                        <figcaption>Figure 1: Conceptual Design</figcaption>
+                    </figure>
+                </div>
+            <hr />
+            </section>
+            
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>System Overview & Core Functionality</h3>
+                    <p>The Patrol Bot is a compact, 3D-printed rover designed for stealth and autonomous operation. Its primary function is to patrol a designated indoor area after hours. Upon detecting human presence using its onboard camera and OpenCV-based object detection, the bot triggers a multi-channel alert system via the ThingSpeak IoT platform. This ensures that relevant personnel are notified immediately through various means, including email, Twitter, MQTT desktop notifications, and even VOIP calls orchestrated through IFTTT.</p>
+                    <figure class="image fit">
+                        <img src="images/patrolbot2.5.jpg" alt="Final hardware model of the Patrol Bot" onerror="this.onerror=null;this.src='https://placehold.co/600x450/cccccc/000000?text=Patrol+Bot+Hardware';">
+                        <figcaption>Figure 2: Assembled hardware of the Patrol Bot.</figcaption>
+                    </figure>
+                </div>
+            <hr />
+            </section>
+
+            
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>🎥 Project Showcase Video</h3>
+                    <p>Watch the Patrol Bot in action and see its core functionalities demonstrated in the video below. This showcase highlights its autonomous navigation, object detection capabilities, and the integrated alert system.</p>
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/oQAdVJTdTDQ?si=H2YVQabZgNYsJOFL" 
+                            title="YouTube video player for Patrol Bot Showcase" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            <hr />
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Key Technical Highlights & Design Philosophy</h3>
+                    <p>The project followed a mechatronic design approach, with concurrent development and integration of mechanical, electronic, and software systems.</p>
+
+                    <h4>Mechanical Design</h4>
+                    <ul>
+                        <li>The chassis is 3D-printed with black filament for stealth and ease of replacement.</li>
+                        <li>It houses all components internally, including microprocessors, motor driver, battery, and sensors, with accessible ports for charging and reprogramming.</li>
+                        <li>A 2WD system with two driven rear wheels and supporting front wheels was chosen for cost-effectiveness and navigational efficiency.</li>
+                    </ul>
+                    <figure class="image fit">
+                        <img src="images/patrolbot3.jpg" alt="Solidworks CAD model of the Patrol Bot" onerror="this.onerror=null;this.src='https://placehold.co/700x500/cccccc/000000?text=Patrol+Bot+CAD+Model';">
+                        <figcaption>Figure 3: Solidworks CAD model Section of the Patrol Bot.</figcaption>
+                    </figure>
+                    <hr />
+
+                    <h4>Electronic System</h4>
+                    <ul>
+                        <li><strong>Processing:</strong> A Raspberry Pi 4 Model B handles the computationally intensive object detection, while an Arduino (Nano or Uno) manages the navigation algorithm. This decentralized approach enhances responsiveness and reliability.</li>
+                        <li><strong>Motor Control:</strong> An L298N dual motor driver controls the DC motors.</li>
+                        <li><strong>Sensing (Navigation):</strong> Two HC-SR04 ultrasonic sensors are used: one front-facing for obstacle detection and turning decisions, and one side-facing for a (previously explored) PID-based wall-following algorithm.</li>
+                        <li><strong>Power:</strong> A rechargeable 11.1V 2200mAh LiPo battery powers the system.</li>
+                    </ul>
+                    <figure class="image fit">
+                        <img src="images/patrolbot4.jpg" alt="Circuit diagram of the Patrol Bot's electronics" onerror="this.onerror=null;this.src='https://placehold.co/700x500/cccccc/000000?text=Patrol+Bot+Circuit+Diagram';">
+                        <figcaption>Figure 4: Circuit diagram of the Patrol Bot's electronics.</figcaption>
+                    </figure>
+                    <hr />
+
+
+                    <h4>Detection System</h4>
+                    <ul>
+                        <li><strong>Algorithm:</strong> After evaluating various methods (HOG, Cascade Classifier, RCNN, SSD), the Single Shot MultiBox Detector (SSD) with an Inception v2 neural network was selected for a good balance of speed and accuracy on the Raspberry Pi. The system was trained primarily on the COCO dataset.</li>
+                        <li><strong>Camera:</strong> A Pi camera with an adjustable mount and No-IR filter was used for night vision capabilities.</li>
+                    </ul>
+                    <p>Comparison of different detection methods explored:</p>
+                    <div class="row uniform">
+                        <div class="4u 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/patrolbot10.jpg" alt="SSD Inception V2 Detection Method" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/000000?text=SSD+Inception+V2';">
+                                <figcaption>SSD Inception v2: Balanced speed and accuracy, works with partial views.</figcaption>
+                            </figure>
+                        </div>
+                        <div class="4u 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/patrolbot11.jpg" alt="Cascade Classifier Detection Method" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/000000?text=Cascade+Classifier';">
+                                <figcaption>Cascade Classifier: Fast but not accurate, requires a full body view.</figcaption>
+                            </figure>
+                        </div>
+                        <div class="4u$ 12u$(small)"> <figure class="image fit">
+                                <img src="images/patrolbot12.jpg" alt="HOG Descriptor Detection Method" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/000000?text=HOG+Descriptor';">
+                                <figcaption>HOG Descriptor: Neither fast nor accurate, requires a full body view.</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <h4>Navigation System</h4>
+                    <ul>
+                        <li>Initial explorations included PID-based wall following.</li>
+                        <li>The final implemented navigation strategy is a <strong>Random Exploration Algorithm</strong>. The bot moves straight until an obstacle is detected by the front ultrasonic sensor. It then attempts to turn right. If the right is also blocked (detected by a conceptual right-side sensor, or inferred), it turns left. This simple yet effective algorithm aims to maximize room coverage with minimal sensor complexity, ensuring the camera captures various angles.</li>
+                        <li>The navigation system is deliberately isolated from the vision system to ensure mobility even if the vision processing encounters issues.</li>
+                    </ul>
+                    <figure class="image fit">
+                        <img src="images/patrolbot6.jpg" alt="Flowchart of the Patrol Bot's navigation algorithm" onerror="this.onerror=null;this.src='https://placehold.co/600x700/cccccc/000000?text=Navigation+Flowchart';">
+                        <figcaption>Figure 6: Flowchart of the Patrol Bot's navigation algorithm.</figcaption>
+                    </figure>
+                    <hr />
+
+                    <h4>IoT System & Alerting</h4>
+                    <ul>
+                        <li><strong>Platform:</strong> ThingSpeak is the central IoT platform used for data logging and triggering alerts.</li>
+                        <li><strong>Alert Mechanisms:</strong>
+                            <ul>
+                                <li><strong>ThingSpeak React & ThingTweet:</strong> Sends Twitter alerts.</li>
+                                <li><strong>ThingSpeak React & MATLAB Analysis:</strong> Sends email alerts.</li>
+                                <li><strong>ThingSpeak MQTT & MQTTX:</strong> Provides instantaneous desktop notifications.</li>
+                                <li><strong>IFTTT Integration:</strong> Leverages ThingSpeak webhooks to trigger IFTTT applets for:
+                                    <ul>
+                                        <li>Forwarding Twitter alerts to Telegram.</li>
+                                        <li>Initiating VOIP calls to a designated device.</li>
+                                        <li>Sending alerts to Discord.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>This multi-layered alert system provides redundancy, increasing the likelihood of an alert being noticed.</li>
+                    </ul>
+                    <p>Examples of specific alert types implemented:</p>
+                    <div class="row uniform">
+                        <div class="4u 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/patrolbot7.jpg" alt="Email Alert Example" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/000000?text=Email+Alert';">
+                                <figcaption>Email alert sent via ThingSpeak MATLAB Analysis.</figcaption>
+                            </figure>
+                        </div>
+                        <div class="4u 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/patrolbot8.jpg" alt="Twitter Alert Example" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/000000?text=Twitter+Alert';">
+                                <figcaption>Twitter alert posted using ThingTweet.</figcaption>
+                            </figure>
+                        </div>
+                        <div class="4u$ 12u$(small)"> <figure class="image fit">
+                                <img src="images/patrolbot9.jpg" alt="Discord Alert Example" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/000000?text=Call+Alert';">
+                                <figcaption>Discord alert triggered via IFTTT.</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Challenges & Learning</h3>
+                    <p>The project involved overcoming challenges such as optimizing object detection performance on a Raspberry Pi and refining the navigation strategy for effective coverage. The initial PID wall-following approach proved computationally intensive for the hardware, leading to the adoption of the simpler random exploration method. Integrating multiple IoT services and ensuring reliable alert delivery across different platforms was also a key learning experience.</p>
+                </div>
+                <hr />
+            </section>
+
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Conclusion & Future Scope</h3>
+                    <p>The IoT Based Patrol Bot successfully demonstrates a cost-effective, autonomous solution for enhancing security. It effectively integrates object detection, mobile robotics, and a robust IoT-based alert system.</p>
+                    <p>Future development could explore:</p>
+                    <ul>
+                        <li>Upgrading navigation with LiDAR for SLAM capabilities.</li>
+                        <li>Developing a unified custom application for streamlined alerts.</li>
+                        <li>Investigating alternative IoT platforms like Blynk.</li>
+                        <li>Incorporating mecanum wheels for improved maneuverability in tight spaces.</li>
+                    </ul>
+                    <p>This project serves as a strong example of applying mechatronics engineering principles to solve a tangible real-world problem, emphasizing system integration, IoT connectivity, and autonomous decision-making.</p>
+                </div>
+            </section>
+        </article>
+
+        <footer id="footer">
+            <ul class="icons">
+                <li><a href="mailto:amir.ad@northeastern.edu" class="icon fa-envelope-o fa-lg"><span class="label">Email</span></a></li>
+                <li><a href="patrolbot.pdf" target="blank" class="icon fa-file-pdf-o fa-lg"><span class="label">Report</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>© Your Name/Team Name. All rights reserved.</li>
+                <li>Template Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a> (Adapted)</li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

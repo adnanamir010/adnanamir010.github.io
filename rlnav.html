@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Adaptive RL for Robust Navigation</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="icon" href="images/favicon.ico">
+</head>
+<body class="is-preload">
+    <div id="page-wrapper">
+
+        <header id="header">
+            <h1><a href="index.html">Home</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li class="special">
+                        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+                        <div id="menu">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#projects">Projects</a></li>
+                                <li><a href="index.html#about">About</a></li>
+                                <li><a href="index.html#contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <article id="main">
+            <header>
+                <h2>Adaptive Reinforcement Learning for Robust Navigation</h2>
+                <p>A Comparative Study of PPO and SAC for Autonomous Navigation in Uncertain Environments</p>
+            </header>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Introduction & Motivation</h3>
+                    <p>Autonomous navigation in complex and unpredictable environments is a significant challenge in robotics. While traditional path planning excels in static, known settings, it often falters when faced with dynamic obstacles, sensor noise, or unexpected environmental changes. This project, inspired by the work of Cimurs et al. (2022) on goal-driven autonomous exploration, delves into developing adaptive navigation policies using advanced reinforcement learning (RL) techniques. The primary aim was to compare the effectiveness of leading on-policy (PPO) and off-policy (SAC) RL algorithms for robust navigation under uncertainty.</p>
+                    
+                    <h3>The Challenge: Navigation Under Uncertainty</h3>
+                    <p>The core technical problem was to develop an RL policy for a differential-drive robot to navigate from a start to a goal position in a 2D environment populated with static obstacles of unknown shapes and placements. The policy needed to achieve this while avoiding collisions, minimizing path length and time, adapting to different obstacle configurations, and generalizing to unseen scenarios.</p>
+                    <p>The task was formalized as a Markov Decision Process (MDP) with a state space including robot pose and sensor readings (Lidar, relative goal position), and a continuous action space for angular velocity. A shaped reward function was designed to encourage goal achievement, collision avoidance, efficiency, and progress towards the goal.</p>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Simulation Environments & Approach</h3>
+                    <p>To facilitate efficient training and robust validation, a two-pronged simulation strategy was adopted. Initially, performance challenges with NVIDIA's Isaac Sim in terms of training speed and vectorization led to the development of a custom, lightweight Gymnasium-based environment.</p>
+                    
+                    <h4>Custom Gymnasium Environment ("VectorizedDD")</h4>
+                    <p>This primary training environment was designed to replicate the navigation scenario efficiently, supporting vectorized (parallel) simulations for significantly faster training (10-100x faster than an equivalent Isaac Sim setup). It featured a square arena, randomly placed obstacles (configurable as square or circular to introduce uncertainty), and simulated Lidar sensors for the differential-drive robot.</p>
+                    <div class="row uniform">
+                        <div class="6u 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/rlnav2.gif" alt="Custom Gymnasium Environment with circular obstacles" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/000000?text=Gym+Circular+Obstacles';">
+                                <figcaption>Custom Gymnasium environment with circular obstacles</figcaption>
+                            </figure>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/rlnav3.gif" alt="Custom Gymnasium Environment with square obstacles" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/000000?text=Gym+Square+Obstacles';">
+                                <figcaption>Custom Gymnasium environment with square obstacles</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <p></p>
+
+                    <h4>NVIDIA Isaac Sim Environment</h4>
+                    <p>For higher-fidelity validation and to explore sim-to-sim transfer, the same navigation scenario was implemented in Isaac Sim. This platform offers physically accurate simulation with PhysX, realistic sensor models, and ROS integration capabilities. The goal was to transfer policies learned in the custom environment to Isaac Sim for more realistic testing.</p>
+                    <div class="row uniform">
+                        <div class="6u 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/rlnav4.jpg" alt="Isaac sim environment" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/000000?text=Gym+Circular+Obstacles';">
+                                <figcaption>Isaac Sim Environment</figcaption>
+                            </figure>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/rlnav5.jpg" alt="Isaac Sim environment with reduced GPU overhead" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/000000?text=Gym+Square+Obstacles';">
+                                <figcaption>Isaac Sim environment with reduced GPU overhead</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <p>We also experimented with Nick Germanis'<a href="https://github.com/NickGeramanis/gym-navigation" target="blank"> gym-navigation</a> environment to test our algorithms with discrete action spaces.</p>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Algorithms Explored: PPO vs. SAC</h3>
+                    <p>The project focused on a comparative study of two state-of-the-art deep RL algorithms:</p>
+                    <ul>
+                        <li><strong>Proximal Policy Optimization (PPO):</strong> An on-policy algorithm known for its stability. We implemented variants including PPO-CLIP (using a clipped surrogate objective) and PPO-KL (using KL-divergence as a constraint).</li>
+                        <li><strong>Soft Actor-Critic (SAC):</strong> An off-policy algorithm incorporating entropy maximization for improved exploration and sample efficiency. Variants explored included Twin Critic vs. Single Critic architectures and different entropy management strategies (Adaptive, Fixed, None).</li>
+                    </ul>
+                    <p>Both algorithms utilized similar 2-layer MLP neural network architectures for their policy and value/Q-networks.</p>
+                    <hr />
+                </div>
+            </section>
+
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Key Findings & Results</h3>
+                    <p>The comparative analysis yielded several significant insights into the performance of PPO and SAC for this navigation task:</p>
+                    <ul>
+                        <li><strong>Overall Performance:</strong> SAC dramatically outperformed PPO, achieving a 69.9% higher final reward and demonstrating approximately 36 times better sample efficiency. SAC policies also exhibited smoother trajectories and better goal-oriented behavior.</li>
+                        <li><strong>PPO Variants:</strong> PPO-CLIP significantly outperformed PPO-KL in both training and evaluation, which was contrary to initial expectations about the stability benefits of KL-divergence constraints. This suggests that the simpler clipping mechanism in PPO-CLIP allowed for more effective policy updates in our variable environment.</li>
+                        <li><strong>SAC Variants:</strong> The Twin Critic architecture was found to be a crucial component for SAC, offering an 8.5% performance improvement and better stability. Surprisingly, SAC variants with no explicit entropy bonus performed best in our navigation setup, potentially because the environment's inherent randomization provided sufficient exploration.</li>
+                        <li><strong>Sim-to-Sim Transfer:</strong> Policies trained in the custom Gymnasium environment were successfully transferred to Isaac Sim. While requiring some fine-tuning, these policies demonstrated promising adaptation to the higher-fidelity simulation.</li>
+                    </ul>
+                    <div class="row uniform">
+                        <div class="6u 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/rlnav6.jpg" alt="Learning Curve by Training Percentage" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/000000?text=Gym+Circular+Obstacles';">
+                                <figcaption>Training Rewards by Training Progress</figcaption>
+                            </figure>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/rlnav7.jpg" alt="Evaluation Rewards by Training Progress" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/000000?text=Gym+Square+Obstacles';">
+                                <figcaption>Evaluation Rewards by Training Progress</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Challenges & Learnings</h3>
+                    <p>This project involved tackling several technical and conceptual challenges, including the complexity of implementing RL algorithm variants, designing realistic and efficient simulation environments, optimizing training performance, and managing the sim-to-sim transfer process. Limited computational resources also constrained the number of experimental trials. Despite these hurdles, the project provided valuable insights into the practical application of RL for robotic navigation.</p>
+                    <hr />
+                </div>
+            </section>
+
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Conclusion & Future Directions</h3>
+                    <p>This research successfully compared PPO and SAC for robot navigation under uncertainty, highlighting SAC's superior sample efficiency and final performance for this task. The viability of a sim-to-sim transfer approach was also demonstrated, offering a practical pathway for developing RL policies.</p>
+                    <p>Future work could involve refining sim-to-real transfer, exploring hybrid PPO-SAC approaches, incorporating uncertainty-aware models, implementing curriculum learning, and extending the system to handle dynamic obstacles and multi-modal sensor fusion.</p>
+                    <p>For more details, please visit the project repository: <a href="https://github.com/adnanamir010/IsaacRL_Maze" target="_blank">https://github.com/adnanamir010/IsaacRL_Maze</a></p>
+                </div>
+            </section>
+
+        </article>
+
+        <footer id="footer">
+            <ul class="icons">
+                <li><a href="https://github.com/adnanamir010/IsaacRL_Maze" class="icon fa-github fa-lg" target="_blank"><span class="label">GitHub</span></a></li>
+                 <li><a href="mailto:amir.ad@northeastern.edu" class="icon fa-envelope-o fa-lg"><span class="label">Email</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; Adnan Amir. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a> (Adapted)</li>
+            </ul>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Cold Spray Digital Twin Framework</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="icon" href="images/favicon.ico">
+</head>
+<body class="is-preload">
+    <div id="page-wrapper">
+
+        <header id="header">
+            <h1><a href="index.html">Home</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li class="special">
+                        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+                        <div id="menu">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#projects">Projects</a></li>
+                                <li><a href="index.html#about">About</a></li>
+                                <li><a href="index.html#contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <article id="main">
+            <header>
+                <h2>Cold Spray Digital Twin Framework</h2>
+                <p>High-Fidelity Simulation for Synthetic Data Generation and Intelligent Manufacturing</p>
+            </header>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Project Vision</h3>
+                    <p>Cold spray additive manufacturing produces complex, non-Gaussian deposition patterns that are difficult to predict and control. This project develops a comprehensive digital twin framework that generates high-fidelity synthetic data for training surrogate models, ultimately enabling intelligent control of cold spray robotic systems.</p>
+                    
+                    <p>The framework leverages NVIDIA's parallel computing tools and robotics platforms to create accurate simulations of the cold spray process, capturing the non-ideal deposition characteristics essential for training physics-informed neural networks. This synthetic data pipeline eliminates costly physical experimentation while providing the diverse training data necessary for developing robust control policies.</p>
+                    
+                    <h3>Technical Architecture</h3>
+                    <p>The system integrates three core components to create a complete digital twin:</p>
+                    <ul>
+                        <li><strong>Custom Physics Simulation (Warp):</strong> GPU-accelerated deposition modeling using NVIDIA Warp's parallel computing framework to achieve real-time performance</li>
+                        <li><strong>Robotic Framework (Isaac Sim):</strong> Modular robot control system supporting multiple manipulators and control strategies</li>
+                        <li><strong>Intelligent Segmentation (SDFs):</strong> Real-time defect detection and repair planning using GPU-accelerated signed distance fields</li>
+                    </ul>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Core Innovation: GPU-Accelerated Cold Spray Simulation</h3>
+                    
+                    <h4>Real-Time Physics Using Warp</h4>
+                    <p>Developed custom CUDA kernels using NVIDIA Warp's parallel computing framework to simulate cold spray deposition at unprecedented speeds:</p>
+                    <ul>
+                        <li><strong>Non-Gaussian Deposition:</strong> Accurate modeling of realistic spray patterns that deviate from ideal distributions</li>
+                        <li><strong>GPU-Accelerated Raycasting:</strong> High-throughput ray-mesh intersection for deposition simulation</li>
+                        <li><strong>Dynamic Mesh Deformation:</strong> Real-time vertex manipulation to simulate material buildup</li>
+                        <li><strong>Material-Specific Models:</strong> Customizable deposition parameters for different powder materials</li>
+                        <li><strong>Differentiable Simulation:</strong> Full autodiff support for gradient-based optimization</li>                    
+                    </ul>
+
+                    <div class="row uniform">
+                        <div class="6u 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/coldspray2.gif" alt="Cold spray deposition simulation" onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a90e2/ffffff?text=Cold+Spray+Deposition';">
+                                <figcaption>Real-time cold spray deposition with non-Gaussian patterns</figcaption>
+                            </figure>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/coldspray6.png" alt="SDF-based defect segmentation" onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a90e2/ffffff?text=Defect+Segmentation';">
+                                <figcaption>Microsecond defect segmentation using GPU-accelerated SDFs</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    
+                    <h4>Synthetic Data Generation Pipeline</h4>
+                    <p>The simulation generates diverse training scenarios for surrogate model development:</p>
+                    <ul>
+                        <li><strong>Automated Scenario Generation:</strong> Thousands of spray configurations with varying parameters</li>
+                        <li><strong>Ground Truth Labels:</strong> Accurate deposition thickness and quality metrics</li>
+                        <li><strong>Domain Randomization:</strong> Systematic variation for robust model training</li>
+                        <li><strong>PhysicsNeMo Ready:</strong> Output format optimized for physics-informed neural networks</li>
+                    </ul>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Isaac Sim: Modular Robotics Framework</h3>
+                    
+                    <h4>Robot-Agnostic Architecture</h4>
+                    <p>Built a comprehensive framework supporting multiple industrial robots through a unified interface:</p>
+                    <ul>
+                        <li><strong>Modular Design:</strong> Plug-and-play support for UR, KUKA, ABB, and xArm robots</li>
+                        <li><strong>Controller Flexibility:</strong> RMPflow for reactive motion, custom IK solvers for path following</li>
+                        <li><strong>Task Modularity:</strong> Configurable for various manufacturing operations</li>
+                        <li><strong>USD Integration:</strong> Seamless CAD import and collaborative workflows via Omniverse</li>
+                    </ul>
+                    
+                    <div class="row uniform">
+                        <div class="6u 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/coldspray3.gif" alt="Multi-robot collision avoidance" onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a90e2/ffffff?text=RMPflow+Avoidance';">
+                                <figcaption>Multi-robot collision avoidance using RMPflow</figcaption>
+                            </figure>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/coldspray5.gif" alt="Hybrid additive/subtractive demo" onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a90e2/ffffff?text=Hybrid+Manufacturing';">
+                                <figcaption>Demonstration of additive and subtractive capabilities</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    
+                    <h4>FabMachine Library</h4>
+                    <p>Custom library implementing diverse manufacturing processes:</p>
+                    <ul>
+                        <li><strong>Additive Processes:</strong> Cold spray, 3D printing, and deposition operations</li>
+                        <li><strong>Subtractive Processes:</strong> Machining and material removal simulation</li>
+                        <li><strong>Hybrid Operations:</strong> Combined additive-subtractive workflows</li>
+                    </ul>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Enabling Technology: SDF-Based Intelligence</h3>
+                    
+                    <p>Signed Distance Fields provide the computational backbone for real-time decision making:</p>
+                    
+                    <h4>GPU-Accelerated Segmentation</h4>
+                    <ul>
+                        <li><strong>Microsecond Performance:</strong> Defect detection in microseconds using CUDA kernels</li>
+                        <li><strong>Boolean Operations:</strong> Efficient computation of repair regions (target - current)</li>
+                        <li><strong>3D Array Representation:</strong> Direct GPU manipulation for maximum performance</li>
+                        <li><strong>Quality Metrics:</strong> Real-time chamfer distance computation for accuracy assessment</li>
+                    </ul>
+                    
+                    <div class="row uniform">
+                        <div class="6u 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/coldspray7.png" alt="Defected part requiring repair" onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a90e2/ffffff?text=Defected+Part';">
+                                <figcaption>Original defected part requiring cold spray repair</figcaption>
+                            </figure>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/coldspray9.png" alt="Additive and subtractive operations" onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a90e2/ffffff?text=SDF+Operations';">
+                                <figcaption> After SDF-based subtractive operations on test geometry</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    
+                    <h4>Dual-Purpose Application</h4>
+                    <ul>
+                        <li><strong>Reward Computation:</strong> SDF differences drive reinforcement learning rewards</li>
+                        <li><strong>Repair Planning:</strong> Automatic identification of regions requiring deposition</li>
+                        <li><strong>Process Monitoring:</strong> Continuous evaluation of coating uniformity</li>
+                    </ul>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Digital Twin Integration</h3>
+                    
+                    <p>The framework seamlessly combines simulation components for complete digital twin functionality:</p>
+                    
+                    <h4>System Architecture</h4>
+                    <ul>
+                        <li><strong>Bi-directional Communication:</strong> Real-time data exchange between physics and robotics layers</li>
+                        <li><strong>Hardware Integration:</strong> Direct control of xArm6/7 robots via ROS2</li>
+                        <li><strong>Parallel Processing:</strong> Asynchronous execution of physics and robot control</li>
+                        <li><strong>Cloud Scalability:</strong> Distributed training support for large-scale data generation</li>
+                    </ul>
+                    
+                    <h4>Performance Metrics</h4>
+                    <ul>
+                        <li><strong>Simulation Speed:</strong> 60+ FPS with full physics on RTX 4090</li>
+                        <li><strong>Data Generation:</strong> 10,000+ unique scenarios per hour</li>
+                        <li><strong>Segmentation Speed:</strong> Microsecond defect detection</li>
+                        <li><strong>Accuracy:</strong> Deposition predictions within 5% of physical measurements</li>
+                    </ul>
+                    
+                    <div class="row uniform">
+                        <div class="12u$">
+                            <figure class="image fit">
+                                <img src="images/coldspray4.gif" alt="Complete robotic manufacturing demonstration" onerror="this.onerror=null;this.src='https://placehold.co/800x400/4a90e2/ffffff?text=Digital+Twin+Demo';">
+                                <figcaption>Complete digital twin demonstration: robotic 3D printing and machining</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Future Applications: Learning-Based Control</h3>
+                    
+                    <p>Once surrogate models are trained on synthetic data, the framework enables:</p>
+                    
+                    <h4>Reinforcement Learning in Isaac Lab</h4>
+                    <ul>
+                        <li><strong>Smooth Spray Control:</strong> RL policies for uniform deposition with constant flow rate</li>
+                        <li><strong>Adaptive Repair:</strong> Intelligent strategies for defect remediation</li>
+                        <li><strong>Multi-Operation Planning:</strong> Coordinated additive-subtractive workflows</li>
+                        <li><strong>Sim-to-Real Transfer:</strong> Domain randomization for robust deployment</li>
+                    </ul>
+                    
+                    <h4>Industrial Applications</h4>
+                    <ul>
+                        <li><strong>Aerospace:</strong> Automated turbine blade repair</li>
+                        <li><strong>Automotive:</strong> EV component coating</li>
+                        <li><strong>Remanufacturing:</strong> Intelligent part restoration</li>
+                    </ul>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Technical Stack & Contributions</h3>
+                    
+                    <div class="row uniform">
+                        <div class="4u 12u$(medium)">
+                            <h4>Parallel Computing</h4>
+                            <ul>
+                                <li>NVIDIA Warp (CUDA wrapper)</li>
+                                <li>Custom GPU kernels</li>
+                                <li>Differentiable programming</li>
+                                <li>Real-time raycasting</li>
+                            </ul>
+                        </div>
+                        <div class="4u 12u$(medium)">
+                            <h4>Robotics & Simulation</h4>
+                            <ul>
+                                <li>NVIDIA Isaac Sim</li>
+                                <li>Isaac Lab (future RL)</li>
+                                <li>RMPflow planning</li>
+                                <li>ROS2 integration</li>
+                            </ul>
+                        </div>
+                        <div class="4u$ 12u$(medium)">
+                            <h4>Machine Learning</h4>
+                            <ul>
+                                <li>Synthetic data generation</li>
+                                <li>PhysicsNeMo preparation</li>
+                                <li>SDF-based rewards</li>
+                                <li>Hyperparameter optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3>Key Contributions</h3>
+                    <ul>
+                        <li><strong>First real-time cold spray simulator</strong> with accurate non-Gaussian deposition using GPU acceleration</li>
+                        <li><strong>Comprehensive synthetic data pipeline</strong> for training physics-informed neural networks</li>
+                        <li><strong>Microsecond defect segmentation</strong> using GPU-accelerated SDF operations</li>
+                        <li><strong>Modular robotics framework</strong> supporting multiple robots and control strategies</li>
+                        <li><strong>Complete digital twin architecture</strong> bridging simulation and physical systems</li>
+                    </ul>
+                    
+                    <p>This framework establishes the foundation for intelligent, data-driven manufacturing systems that can adapt and optimize in real-time, significantly advancing the state of cold spray technology.</p>
+                    
+                    <p>For more information: <a href="mailto:amir.ad@northeastern.edu">Contact me</a> because the repository for this project is a part of an active research effort</p>
+                </div>
+            </section>
+
+        </article>
+
+        <footer id="footer">
+            <ul class="icons">
+                <li><a href="https://github.com/adnanamir010" class="icon fa-github fa-lg" target="_blank"><span class="label">GitHub</span></a></li>
+                <li><a href="mailto:amir.ad@northeastern.edu" class="icon fa-envelope-o fa-lg"><span class="label">Email</span></a></li>
+                <li><a href="https://linkedin.com/in/adnanamir010" class="icon fa-linkedin fa-lg" target="_blank"><span class="label">LinkedIn</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; Adnan Amir. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a> (Adapted)</li>
+            </ul>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

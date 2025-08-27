@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Real-Time Augmented Reality from Scratch</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="icon" href="images/favicon.ico">
+</head>
+<body class="is-preload">
+    <div id="page-wrapper">
+
+        <header id="header">
+            <h1><a href="index.html">Home</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li class="special">
+                        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+                        <div id="menu">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#projects">Projects</a></li>
+                                <li><a href="index.html#about">About</a></li>
+                                <li><a href="index.html#contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <article id="main">
+            <header>
+                <h2>Real-Time Augmented Reality</h2>
+                <p>Seamlessly Blending Virtual Objects with the Real World</p>
+            </header>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Project Vision</h3>
+                    <p>This project introduces a robust system for real-time augmented reality, capable of accurately placing and tracking virtual 3D objects in a live video feed. By mastering camera calibration and marker detection, the application creates a seamless and interactive experience where the virtual and real worlds coexist.</p>
+                    
+                    <p>The core of the project is a pipeline that takes a live video stream, identifies key markers (like a chessboard or an ArUco board), and uses them to calculate the camera's precise position and orientation. This allows for the stable and realistic rendering of virtual objects, making them appear as if they are truly part of the physical environment.</p>
+                    
+                    <h3>Technical Architecture</h3>
+                    <p>The system is built on a foundation of key computer vision techniques to deliver a real-time AR experience:</p>
+                    <ul>
+                        <li><strong>Camera Calibration:</strong> Establishes the camera's intrinsic parameters to correct for lens distortion and ensure accurate 3D projection.</li>
+                        <li><strong>Marker Detection:</strong> Utilizes robust algorithms to detect and track both chessboard and ArUco markers in real-time.</li>
+                        <li><strong>Pose Estimation:</strong> Calculates the 6-DoF (six degrees of freedom) pose of the camera relative to the detected markers, enabling precise object placement.</li>
+                        <li><strong>Virtual Object Rendering:</strong> Overlays complex 3D models and other virtual elements onto the video feed, anchored to the detected markers.</li>
+                    </ul>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Core Innovation: Real-Time Marker-Based AR</h3>
+                    
+                    <h4>Live 3D Object Integration</h4>
+                    <p>The application's main strength is its ability to project virtual objects into the real world with high fidelity and low latency:</p>
+                    <ul>
+                        <li><strong>Multi-Marker Support:</strong> Detects both standard chessboard patterns and advanced ArUco markers for flexible use cases.</li>
+                        <li><strong>Dynamic Tracking:</strong> Virtual objects remain locked to their markers, even as the camera or the marker moves.</li>
+                        <li><strong>Complex 3D Model Support:</strong> Renders detailed 3D models from OBJ files, bringing complex virtual creations to life.</li>
+                        <li><strong>Interactive Visualizations:</strong> Projects not just 3D models, but also visual aids like 3D axes to show the orientation of the detected markers.</li>
+                    </ul>
+                    <hr />
+                </div>
+            </section>
+            
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Demos & Fun Stuff!</h3>
+                    <p>Check out some examples of what this AR application can do.</p>
+                    
+                    <div class="row uniform">
+                        <div class="6u 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/ar2.gif" alt="A virtual bunny projected onto a chessboard" onerror="this.onerror=null;this.src='https://placehold.co/600x400/ff69b4/ffffff?text=Bunny+AR+Demo';">
+                                <figcaption>A cute bunny projected onto a chessboard marker.</figcaption>
+                            </figure>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/ar3.gif" alt="Sentinels Valorant team logo projected onto a chessboard" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e83c3c/ffffff?text=Sentinels+AR+Demo';">
+                                <figcaption>Projecting the Sentinels Valorant team logo.</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    
+                     <details>
+                        <summary style="font-weight: bold; color: #e83c3c; cursor: pointer;">⚠️DO NOT PRESS⚠️</summary>
+                        <div style="padding-top: 20px;">
+                        <div class="6u$ 12u$(medium)">
+                            <figure class="image fit">
+                                <img src="images/ar4.gif" alt="You just got RICKROLLED" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e83c3c/ffffff?text=Sentinels+AR+Demo';">
+                                <figcaption>You just got RICKROLLED</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    </details>
+                    <hr />
+                </div>
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Technical Stack & Contributions</h3>
+                    
+                    <div class="row uniform">
+                        <div class="6u 12u$(medium)">
+                            <h4>Core Technologies</h4>
+                            <ul>
+                                <li>C++</li>
+                                <li>OpenCV</li>
+                                <li>CMake</li>
+                            </ul>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <h4>Key Computer Vision Concepts</h4>
+                            <ul>
+                                <li>Camera Calibration</li>
+                                <li>Pose Estimation (SolvePnP)</li>
+                                <li>Feature Detection and Matching</li>
+                                <li>3D Projection and Rendering</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3>Key Contributions</h3>
+                    <ul>
+                        <li><strong>A complete pipeline for marker-based augmented reality</strong> from camera calibration to real-time rendering.</li>
+                        <li><strong>Implementation of both chessboard and ArUco marker detection</strong> for robust and flexible tracking.</li>
+                        <li><strong>Demonstration of projecting complex 3D models</strong> onto a live video feed with accurate and stable tracking.</li>
+                        <li><strong>Exploration of advanced feature detectors</strong> for future markerless AR applications.</li>
+                    </ul>
+                    
+                    <p>This project serves as a strong foundation for building more advanced augmented reality applications, with potential uses in everything from interactive educational tools to industrial design and entertainment.</p>
+                    
+                    <p>For more information, check out the <a href="https://github.com/adnanamir010/RealTime_AR">project on GitHub</a> or <a href="mailto:amir.ad@northeastern.edu">contact me</a>.</p>
+                </div>
+            </section>
+
+        </article>
+
+        <footer id="footer">
+            <ul class="icons">
+                <li><a href="https://github.com/adnanamir010/RealTime_AR" class="icon fa-github fa-lg" target="_blank"><span class="label">GitHub</span></a></li>
+                <li><a href="mailto:amir.ad@northeastern.edu" class="icon fa-envelope-o fa-lg"><span class="label">Email</span></a></li>
+                <li><a href="https://linkedin.com/in/adnanamir010" class="icon fa-linkedin fa-lg" target="_blank"><span class="label">LinkedIn</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; Adnan Amir. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a> (Adapted)</li>
+            </ul>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

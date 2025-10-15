@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>VLM-Based Robotic Manipulation</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="icon" href="images/favicon.ico">
+</head>
+<body>
+    <div id="page-wrapper">
+        <header id="header">
+            <h1><a href="index.html">Home</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li class="special">
+                        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+                        <div id="menu">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#projects">Projects</a></li>
+                                <li><a href="index.html#about">About</a></li>
+                                <li><a href="index.html#contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <article id="main">
+            <header>
+                <h2>VLM-Based Robotic Manipulation</h2>
+                <p><em>Building a Natural Language to Robot Actions Pipeline</em></p>
+            </header>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>What I Built</h3>
+                    <p>A complete pipeline that lets you tell a robot "put the red block on the green one" and it just works - handling perception, planning, execution, and even checking its own work. The system combines computer vision (SAM2), large language models (Google Gemini), and inverse kinematics control to autonomously execute block stacking tasks in simulation.</p>
+                    
+                    <figure class="image fit">
+                        <img src="images/vlmaction1.png" alt="VLM robotics simulation">
+                        <figcaption>The simulation environment: Franka Panda robot, 4 colored blocks, RGB-D camera, and a moving distractor to make perception harder</figcaption>
+                    </figure>
+
+                    <p><strong>Tech Stack:</strong> NVIDIA Isaac Sim, SAM2, Google Gemini API, Python, OpenCV, IK Control</p>
+                    <p><strong>Bottom Line:</strong> 100% success on trained tasks, 60% generalization to novel instructions, 94% perception accuracy after optimization</p>
+                </div>
+                <hr />
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>🎥 System Demo</h3>
+                    <p>Watch the full pipeline in action - from natural language input to successful execution, including a failure recovery example where self-checking saves the day.</p>
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/RiKqyAksv9E" 
+                            title="VLM Action Robotics Demo" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <hr />
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>The Perception Challenge: From 30% to 94% Accuracy</h3>
+                    <p>Getting a robot to reliably see colored blocks sounds simple until you actually try it. I evaluated three different approaches and learned a lot about the trade-offs between accuracy, speed, and reliability.</p>
+                    
+                    <div class="row uniform">
+                        <div class="4u 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/vlmaction2.jpg" alt="YOLO detection attempt">
+                                <figcaption><strong>YOLO-World:</strong> Advertised as zero-shot detection, but failed completely - turns out "block" wasn't in its COCO training dataset</figcaption>
+                            </figure>
+                        </div>
+                        <div class="4u 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/vlmaction3.png" alt="SAM2 segmentation">
+                                <figcaption><strong>SAM2:</strong> Started at 30% accuracy with 3s inference time. After optimization: 94.5% accuracy in under 1 second</figcaption>
+                            </figure>
+                        </div>
+                        <div class="4u$ 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/vlmaction4.png" alt="Gemini detection">
+                                <figcaption><strong>Gemini Robotics-ER:</strong> Best accuracy out of the box, but 6+ second latency made it impractical for real-time control</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+
+                    <h4>How I Optimized SAM2</h4>
+                    <p>SAM2's automatic mask generation was struggling, especially with the blue block. The breakthrough came from preprocessing - instead of letting SAM2 find everything, I used color-based centroid detection to give it targeted prompts. Combined with area filtering to reject noise and distractors, this brought detection rates from 30% to 94.5% while cutting inference time by 3x.</p>
+
+                    <figure class="image fit">
+                        <img src="images/vlmaction5.png" alt="SAM2 performance metrics">
+                        <figcaption>Before/after optimization metrics showing improvement across detection rate, position accuracy, and consistency</figcaption>
+                    </figure>
+
+                    <p><strong>Key techniques:</strong> HSV color thresholding → connected components → centroid extraction → SAM2 point prompts → area-based filtering</p>
+                </div>
+                <hr />
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>VLM Planning & Self-Checking</h3>
+                    <p>I tested three Gemini models to see how well they could generate structured action plans from free-form language. The interesting part wasn't just getting them to plan, but figuring out when and how to use self-checking without causing more problems than it solved.</p>
+
+                    <h4>Task Examples</h4>
+                    <p><strong>In-Distribution (8 tasks):</strong> Direct commands like "Put the red block on green block" or "Stack yellow on blue"</p>
+                    <p><strong>Out-of-Distribution (4 tasks):</strong> Novel phrasings like "Make a tower on the blue block with red block" or complex multi-step "Make a 3 block stack with red, yellow and blue from bottom to top"</p>
+
+                    <div class="box">
+                        <p><strong>Example Plan:</strong> "Make a tower on the blue block with red block"</p>
+                        <pre><code>{
+  "plan": [
+    {"skill": "pick", "obj": "red"},
+    {"skill": "place_on", "obj": "red", "ref": "blue"}
+  ]
+}</code></pre>
+                        <p>✓ Correct - the VLM correctly interpreted "tower" and "on the blue block"</p>
+                    </div>
+
+                    <div class="box">
+                        <p><strong>Where they all failed:</strong> "Put red on yellow, then unstack yellow onto green"</p>
+                        <p>❌ All three models generated invalid plans - they didn't understand that you can't move yellow while red is sitting on top of it. This revealed a fundamental limitation in spatial reasoning.</p>
+                    </div>
+
+                    <h4>The Self-Check Dilemma</h4>
+                    <p>I implemented self-checking where the VLM looks at the scene after each skill and verifies success. Sounds great in theory, but it caused unexpected issues - the VLM would sometimes say "no" when blocks were partially occluded, triggering unnecessary replanning. I tested three strategies:</p>
+                    <ul>
+                        <li><strong>Per-skill checking:</strong> High false negative rate, constant replanning</li>
+                        <li><strong>Final-only checking:</strong> Most robust, only verifies at the end</li>
+                        <li><strong>No checking:</strong> Better for simple tasks, fails on execution errors</li>
+                    </ul>
+                    <p>The winner? Final-only checking - it caught real failures without being too sensitive to minor occlusions.</p>
+                </div>
+                <hr />
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Results: Comparing Three Gemini Models</h3>
+                    <p>I ran 45 total episodes across three conditions (in-distribution without distractor, in-distribution with distractor, out-of-distribution with distractor) to see how each model performed.</p>
+
+                    <div class="row uniform">
+                        <div class="4u 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/vlmaction6.png" alt="Gemini 2.5 Pro results">
+                                <figcaption><strong>Gemini 2.5 Pro:</strong> Best overall - 100% on ID tasks, 60% on OOD. Balanced performance across conditions.</figcaption>
+                            </figure>
+                        </div>
+                        <div class="4u 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/vlmaction7.png" alt="Gemini 2.0 Lite results">
+                                <figcaption><strong>Gemini 2.0 Lite:</strong> 80% ID, 100% ID with distractor, but 0% on OOD. Good for cost-sensitive applications with known tasks.</figcaption>
+                            </figure>
+                        </div>
+                        <div class="4u$ 12u$(small)">
+                            <figure class="image fit">
+                                <img src="images/vlmaction8.png" alt="Gemini Robotics results">
+                                <figcaption><strong>Gemini Robotics-ER:</strong> Best raw planning (80% without self-check), but struggled with self-check false positives.</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+
+                    <h4>Key Findings</h4>
+                    <ul>
+                        <li><strong>Perception is the bottleneck:</strong> Even with dual-layer SAM2 + Gemini verification, occlusion from the distractor caused most failures</li>
+                        <li><strong>Self-checking helps but has trade-offs:</strong> Improved recovery from real failures, but added 5-6s latency and occasional false negatives</li>
+                        <li><strong>Model selection matters:</strong> Premium models aren't always better - depends on your specific use case and cost constraints</li>
+                        <li><strong>Latency breakdown:</strong> Perception (~880ms), Planning (750-2500ms), Self-check (5-6s when used)</li>
+                    </ul>
+
+                    <h4>Real Recovery Example</h4>
+                    <p>In one trial, a block fell during manipulation. The self-check caught it, regenerated the plan, and successfully completed the task after 2 replanning attempts. Total time: 87.9s with 3 self-check calls. This is exactly the kind of robustness you need for real-world deployment.</p>
+                </div>
+                <hr />
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>What I Learned</h3>
+                    <div class="row">
+                        <div class="6u 12u$(medium)">
+                            <h4>Technical Insights</h4>
+                            <ul>
+                                <li>Robust perception beats sophisticated planning every time</li>
+                                <li>Preprocessing can be more valuable than model upgrades</li>
+                                <li>Self-verification is powerful but needs careful tuning</li>
+                                <li>VLMs excel at high-level reasoning but struggle with complex spatial logic</li>
+                                <li>Systematic evaluation reveals non-obvious trade-offs</li>
+                            </ul>
+                        </div>
+                        <div class="6u$ 12u$(medium)">
+                            <h4>Engineering Process</h4>
+                            <ul>
+                                <li>Start with metrics - track everything from day one</li>
+                                <li>Compare multiple approaches quantitatively</li>
+                                <li>Optimize the biggest bottleneck first</li>
+                                <li>Test edge cases and failure modes deliberately</li>
+                                <li>Document trade-offs for future decision-making</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </section>
+
+            <section class="wrapper style5">
+                <div class="inner">
+                    <h3>Future Work</h3>
+                    <p>The next steps would focus on moving toward real-world deployment:</p>
+                    <ul>
+                        <li><strong>Knowledge distillation:</strong> Compress larger models for edge deployment with lower latency</li>
+                        <li><strong>Multi-view perception:</strong> Add additional cameras to handle occlusions more robustly</li>
+                        <li><strong>Sim-to-real transfer:</strong> Validate on physical hardware with domain randomization techniques</li>
+                        <li><strong>Hybrid planning:</strong> Combine VLM high-level reasoning with classical motion planning for collision avoidance</li>
+                        <li><strong>Failure case learning:</strong> Build a dataset of failures to improve few-shot prompting</li>
+                    </ul>
+                </div>
+            </section>
+        </article>
+
+        <footer id="footer">
+            <ul class="icons">
+                <li><a href="mailto:amir.ad@northeastern.edu" class="icon fa-envelope-o fa-lg"><span class="label">Email</span></a></li>
+                <li><a href="https://github.com/adnanamir010/VLMaction" target="_blank" class="icon fa-github fa-lg"><span class="label">GitHub</span></a></li>
+                <li><a href="vlmaction_report.pdf" target="_blank" class="icon fa-file-pdf-o fa-lg"><span class="label">Full Report</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>© Adnan Amir. All rights reserved.</li>
+                <li>Template Design: <a href="http://html5up.net" target="_blank">HTML5 UP</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
